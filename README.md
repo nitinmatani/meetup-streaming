@@ -22,22 +22,22 @@ You will need to install:
 
 **For Running on Databricks cluster:**
 
-1. Run each cell within the notebook to see output at each step.The complete output of notebook is in the file [src/main/scala/com/reuthlinger/meetup/MeetupExperiment.scala](src/main/scala/com/reuthlinger/meetup/MeetupExperiment.scala)
+1. Run each cell within the notebook to see output at each step.The complete output of notebook is in the file [src/main/scala/com/nitin/meetup/MeetupTrendAnalysis.html](src/main/scala/com/nitin/meetup/MeetupTrendAnalysis.html)
 
 **For Running locally the jar using spark-submit:**
 
 1. Do call ``` mvn package ``` from the root folder of this project
 2. With the jar file  generated in previous step inside the extracted folder call ``` ./run.sh  ``` 
 
-At the end of the Spark programm it will display the resulting trending 10 topics that were found in the data of this one day.
+At the end of the Spark program it will display the resulting trending 10 topics that were found in the data of this one day.
 
 ## Details on Implementation
 
-1. I have implemented this case study on Databricks community edition cluster for Demo purpose since it has handy notebook api for Spark where you can focus more on logic and the output at each step rather than cluster administration.The Source file html [src/main/scala/com/reuthlinger/meetup/MeetupScript.scala](src/main/scala/com/reuthlinger/meetup/MeetupScript.scala) contains the step wise process I applied using databricks notebook for iteratively working with spark
+1. I have implemented this case study on Databricks community edition cluster for Demo purpose since it has handy notebook api for Spark where you can focus more on logic and the output at each step rather than cluster administration.The Source file html [src/main/scala/com/nitin/meetup/MeetupTrendAnalysis.html](src/main/scala/com/nitin/meetup/MeetupTrendAnalysis.html) contains the step wise process I applied using databricks notebook for iteratively working with spark
 
-2. The implementation for running via spark-submit is provided by [src/main/scala/com/nitin/meetup/MeetupExperiment.scala](src/main/scala/com/nitin/meetup/MeetupExperiment.scala).The project folder ``` MeetupStraming ``` which is created will be actually used in production for creating project jars and deploying the same on Production cluster.Due to time constraint I could not completely execute the code by packaging the code in a jar and running through spark-submit locally but the layout of the project is ready and I have shared the same. 
+2. The implementation for running via spark-submit is provided by [src/main/scala/com/nitin/meetup/MeetupStreaming.scala](src/main/scala/com/nitin/meetup/MeetupStreaming.scala).The project folder ``` MeetupStraming ``` which is created will be actually used in production for creating project jars and deploying the same on Production cluster.Due to time constraint I could not completely execute the code by packaging the code in a jar and running through spark-submit locally but the layout of the project is ready and I have shared the same. 
 
-3. I have also implemented the case study using Spark-Structured Streaming to replicate the events directly coming from live Meetup RSVP stream.I have implemented the same by installing kafka on Databricks clsuter and using it as a Producer and the spark-structred stream  as a consumer.We can apply the logic implemented in step 1 on this streaming data to get the ``` Trending topics ``` in real time.We could also implement a window function, to get the Tending topics ``` Trending topics ``` for a particular window interval like for e,g hour
+3. I have also implemented the case study using Spark-Structured Streaming to replicate the events directly coming from live Meetup RSVP stream.I have implemented the same by installing kafka on Databricks clsuter and using it as a Producer and the spark-structred stream  as a consumer.We can apply the logic implemented in step 1 on this streaming data to get the ``` Trending topics ``` in real time.We could also implement a window function, to get the Tending topics ``` Trending topics ``` for a particular window interval like for e.g hour. The notebook html file for Spark-Structured Streaming is in [src/main/scala/com/nitin/meetup/MeetupStreamingTrendAnalysis.html](src/main/scala/com/nitin/meetup/MeetupStreamingTrendAnalysis.html)
 
 4. During iteratively working with the data on Databricks I found that the group's topics are very unclearly set by the groups themselves. So it happen when just taking the defined ``` topic_name ``` text, we cannot see that similar topics might be trending, but are defined differently and we see discrepancies in output for Trending Topic. Because of this I did choose to not use the ``` topic_name ``` directly but to go with some NLP approach, trying to extract the valuable information from each RSVP. But I need to say that I am new to using NLP .This is the first instance in my career I had to explore NLP by doing some research So I maybe didn't come up with the most sophisticated approach using the NLP functions to the max.Nevertheless it is a good start and would love to dive more into NLP
 
@@ -75,10 +75,10 @@ Also the event's text description could be used with the NLP (and using more adv
 
 ## Improvements and extensions
 
-- Directly attaching to live API from Meetup.com since it was mentioned there was some authentication issue but I have replicated this case using Spark-Structured Streaming on Databricks cluster
-- Using a window function, since it would not make much sense for the smaller amount of data of the batch for a timeframe of a day. Maybe selecting an hour would make sense, but I didn't try if the results might be valueable.
-- I didn't go for maximizing spell checking and avoidance of any other weird symbols that are not filtered by the NLP functions. There could still be improvements, but those would not influence the top topics much.
-- Geo-taging and filtering on locations based
-- I also didn't go for unit tests, but since this implementation uses mostly simpler functions there is not much to go wrong.
+- Directly attaching to live API from Meetup.com since it was mentioned there was some authentication issue,but I have replicated this case using Spark-Structured Streaming on Databricks cluster
+- Using a window function, since it would not make much sense for the smaller amount of data of the batch for a timeframe of a day. Maybe selecting an hour would make sense.The Pesudo code is available in the html file but it was difficult to replicate the output since there was no real time streams available and windowing is based on eventtime.
+- Maximizing spell checking and avoidance of any other unwanted symbols that are not filtered by the NLP functions. There could still be improvements using advanced NLP functions, but those would not influence the top topics much.
+- Geo-taging and filtering could be implemented as next step though execution of trending topics based on cityname is available in my databricks notebook.
+- Implementing unit tests using ```scala-test ``` apis could help in testdriven approach of development, but since this implementation uses mostly simpler functions there is not much to go wrong.
 
 
