@@ -1,9 +1,8 @@
-# Meetup Experiment
+# Meetup Streaming
 
 ## Goal
 
 Calculate the trending N topics from the RSVP information objects that Meetup.com provides via API as stream (but in this case simple batching multiple entries from a file was choosen).
-
 ## Prerequisits
 
 You will need to install:
@@ -22,6 +21,8 @@ You will need to provide the Spark's root folder to the script, see next chapter
 At the end of the Spark programm it will display the resulting trending 10 topics that were found in the data of this one day.
 
 ## Details on Implementation
+
+1.I have implemented this case study on Databricks community edition cluster for Demo purpose since it has handy notebook api for Spark where you can focus more on logic and the output at each step rather than cluster administration
 
 The source file [src/main/scala/com/reuthlinger/meetup/MeetupScript.scala](src/main/scala/com/reuthlinger/meetup/MeetupScript.scala) contains the step wise process I applied using Spark's shell for iteratively working with Spark.
 The implementation for running via spark-submit is provided by [src/main/scala/com/reuthlinger/meetup/MeetupExperiment.scala](src/main/scala/com/reuthlinger/meetup/MeetupExperiment.scala).
