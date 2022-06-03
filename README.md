@@ -76,7 +76,7 @@ Also the event's text description could be used with the NLP (and using more adv
 ## Improvements and extensions
 
 - Directly attaching to live API from Meetup.com since it was mentioned there was some authentication issue,but I have replicated this case using Spark-Structured Streaming on Databricks cluster
-- Using a window function, since it would not make much sense for the smaller amount of data of the batch for a timeframe of a day. Maybe selecting an hour would make sense.The Pesudo code is available in the html file but it was difficult to replicate the output since there was no real time streams available and windowing is based on eventtime.
+- Using a window function, since it would not make much sense for the smaller amount of data of the batch for a timeframe of a day. Maybe selecting an hour would make sense.The Pesudo code is available in the html file.
 - Maximizing spell checking and avoidance of any other unwanted symbols that are not filtered by the NLP functions. There could still be improvements using advanced NLP functions, but those would not influence the top topics much.
 - Geo-taging and filtering could be implemented as next step though execution of trending topics based on cityname is available in my databricks notebook.
 - Implementing unit tests using ```scala-test ``` apis could help in testdriven approach of development, but since this implementation uses mostly simpler functions there is not much to go wrong.
